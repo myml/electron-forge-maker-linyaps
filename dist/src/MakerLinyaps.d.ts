@@ -15,9 +15,9 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     packageName: string;
     defaultPlatforms: ForgePlatform[];
     isSupportedOnCurrentPlatform(): boolean;
-    make({ dir, // '/home/build/Software/monorepo/packages/electron/out/name-linux-x64'
+    make({ dir, // '$project/out/name-linux-x64'
     appName, // 'name'
-    makeDir, // '/home/build/Software/monorepo/packages/electron/out/make',
+    makeDir, // '$project/out/make',
     targetArch, // 'x64'
     packageJSON, // package.json
     targetPlatform, //'linux',

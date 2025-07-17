@@ -1,13 +1,17 @@
 {
   "name": "electron-forge-maker-linyaps",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "electron forge maker for linyaps",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project tsconfig.json"
   },
-  "author": "",
+  "author": "wurongjie@deepin.org",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myml/electron-forge-maker-linyaps"
+  },
   "dependencies": {
     "@electron-forge/maker-base": "^7.1.0",
     "@electron-forge/shared-types": "^7.1.0",

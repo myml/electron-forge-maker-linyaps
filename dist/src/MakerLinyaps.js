@@ -20,20 +20,21 @@ const js_yaml_1 = __importDefault(require("js-yaml"));
 class MakerLinyaps extends maker_base_1.default {
     constructor() {
         super(...arguments);
-        this.name = "linglong";
+        this.name = "linyaps";
         this.packageName = "electron-forge-maker-linyaps";
         this.defaultPlatforms = ["linux"];
     }
     isSupportedOnCurrentPlatform() {
         return process.platform === "linux";
     }
-    make({ dir, // '/home/build/Software/monorepo/packages/electron/out/name-linux-x64'
+    make({ dir, // '$project/out/name-linux-x64'
     appName, // 'name'
-    makeDir, // '/home/build/Software/monorepo/packages/electron/out/make',
+    makeDir, // '$project/out/make',
     targetArch, // 'x64'
     packageJSON, // package.json
     targetPlatform, //'linux',
-    forgeConfig, }) {
+    forgeConfig, // forge.config
+     }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (false) {
                 // 调试用，将所有参数打印到文件
@@ -63,6 +64,15 @@ class MakerLinyaps extends maker_base_1.default {
             if (maker && "config" in maker) {
                 config = maker.config;
             }
+            let version = packageConfig.version;
+            // 如果版本号是三位数字格式，则补充为四位数字格式
+            if (/^\d+\.\d+\.\d+$/.test(version)) {
+                version += ".0"; // 补充为四位数字格式
+            }
+            // 如果版本号不是四位数字格式，则抛出错误，提示用户可以在forge.config.js中配置版本号
+            if (!/^\d+\.\d+\.\d+\.\d+$/.test(version)) {
+                throw new Error(`Invalid version format: ${version}. Expected format is x.x.x.x.\nYou can configure the version in forge.config.js.`);
+            }
             // 生成linglong.yaml
             const dirObj = path_1.default.parse(dir);
             let project = {
@@ -71,7 +81,7 @@ class MakerLinyaps extends maker_base_1.default {
                     id: packageConfig.name,
                     name: appName,
                     kind: "app",
-                    version: packageConfig.version,
+                    version: version,
                     description: packageConfig.description,
                 },
                 base: "org.deepin.base/23.1.0",

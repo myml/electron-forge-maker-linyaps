@@ -2,13 +2,13 @@
 
 用于将 electron 发布为玲珑包
 
-## Usage
+## 安装
 
 ```
-yarn add --dev https://github.com/myml/electron-forge-maker-linyaps
+yarn add electron-forge-maker-linyaps
 ```
 
-## example forgeconfig.js
+## 打包配置
 
 ```
 makers: [
@@ -23,33 +23,21 @@ makers: [
 
 config 可选配置项目：
 
-```ts
-interface LinyapsForgeConfig {
-  id?: string;
-  version?: string;
-  name?: string;
-  description?: string;
-  base?: string;
-  command?: string[];
-  build?: string;
-}
-```
-
 - id
 
-默认使用 package.json 中的 name，玲珑对 id 有要求，必须为 org.deepin.demo 格式，如不符合通过 config 修改
+应用 ID，默认使用 package.json 中的 name，玲珑对 id 有要求，必须为 org.deepin.demo 格式，如不符合通过 config 修改
 
 - version
 
-默认使用 package.json 中的 version，玲珑对版本号有要求，必须为 x.x.x.x 格式，如不符合通过 config 修改
+应用版本，默认使用 package.json 中的 version(三位数字格式的版本自动补充为四位数字)，玲珑对版本号有要求，必须为 x.x.x.x 格式，如不符合通过 config 修改
 
 - name
 
-默认使用 package.json 中的 name
+应用名，默认使用 package.json 中的 name
 
 - description
 
-默认使用 package.json 中的 description
+应用介绍。默认使用 package.json 中的 description
 
 - command
 
@@ -57,8 +45,8 @@ interface LinyapsForgeConfig {
 
 - build
 
-默认为`cp -vr ${dir} $PREFIX/bin`，dir目录为eletron 编译后的目录
+默认为`cp -vr ${dir} $PREFIX/bin`，dir 目录为 eletron 编译后的目录
 
 - buildExt
 
-用于给 build 追加自定义命令，避免覆盖默认build
+用于给 build 追加自定义命令，避免覆盖默认 build
