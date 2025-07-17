@@ -8,6 +8,7 @@ interface LinyapsForgeConfig {
     base?: string;
     command?: string[];
     build?: string;
+    buildExt?: string;
 }
 export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     name: string;

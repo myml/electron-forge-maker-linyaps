@@ -1,25 +1,11 @@
-# electron-forge-maker-appimage
+# electron-forge-maker-linyaps
 
-This is an [electron-forge](https://www.electronforge.io/) builder for [AppImage](https://appimage.org/).
-
-It's far from complete, but it serves the basic needs of our application.
-
-This is based on several existing projects.
-
-[electron-forge-maker-appimage](https://github.com/electron-userland/electron-builder/tree/master/packages/electron-forge-maker-appimage)
-This is the previous maker for electron forge. It does not work, I suspect it uses an older maker API and was never updated.
-
-Working electron-forge makers can be found here. These were used as an example when creating this maker:
-https://github.com/electron-userland/electron-forge/tree/master/packages/maker
-
-Some parts of electron-builder are still used, specifically [app-builder-lib](https://github.com/electron-userland/electron-builder/tree/master/packages/app-builder-lib)
-
-Overall, I suspect app-builder-lib isn't meant to work with electron-forge makers anymore. I am using the components that specifically wrap [app-builder](https://github.com/develar/app-builder), the tool that actually prepares the AppImage.
+用于将 electron 发布为玲珑包
 
 ## Usage
 
 ```
-yarn add --dev https://github.com/Marcus10110/electron-forge-maker-appimage.git
+yarn add --dev https://github.com/myml/electron-forge-maker-linyaps
 ```
 
 ## example forgeconfig.js
@@ -27,12 +13,52 @@ yarn add --dev https://github.com/Marcus10110/electron-forge-maker-appimage.git
 ```
 makers: [
   {
-    name: 'electron-forge-maker-appimage',
+    name: 'electron-forge-maker-linyaps',
     platforms: ['linux'],
-    config: { template: 'assets/AppRunTemplate.sh' },
+    config: { id: org.deepin.demo, version: 1.0.0.0 },
   },
 ];
 
 ```
 
-This was created specifically because we wanted to use AppImage's AppRun script to detect and load modern versions of libstdc++ and libgcc_s on older systems.
+config 可选配置项目：
+
+```ts
+interface LinyapsForgeConfig {
+  id?: string;
+  version?: string;
+  name?: string;
+  description?: string;
+  base?: string;
+  command?: string[];
+  build?: string;
+}
+```
+
+- id
+
+默认使用 package.json 中的 name，玲珑对 id 有要求，必须为 org.deepin.demo 格式，如不符合通过 config 修改
+
+- version
+
+默认使用 package.json 中的 version，玲珑对版本号有要求，必须为 x.x.x.x 格式，如不符合通过 config 修改
+
+- name
+
+默认使用 package.json 中的 name
+
+- description
+
+默认使用 package.json 中的 description
+
+- command
+
+默认使用 eletron appName
+
+- build
+
+默认为`cp -vr ${dir} $PREFIX/bin`，dir目录为eletron 编译后的目录
+
+- buildExt
+
+用于给 build 追加自定义命令，避免覆盖默认build

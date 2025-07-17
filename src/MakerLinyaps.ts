@@ -36,10 +36,11 @@ interface LinyapsForgeConfig {
   base?: string;
   command?: string[];
   build?: string;
+  buildExt?: string;
 }
 export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
   name = "linglong";
-  packageName = "electron-forge-maker-appimage";
+  packageName = "electron-forge-maker-linyaps";
   defaultPlatforms: ForgePlatform[] = ["linux"];
 
   isSupportedOnCurrentPlatform() {
@@ -128,6 +129,9 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     }
     if (config.build) {
       project.build = config.build;
+    }
+    if (config.buildExt) {
+      project.build = project.build + "\n" + config.buildExt;
     }
     // 保存linglong.yaml到out目录
     writeFileSync(dirObj.dir + "/linglong.yaml", yaml.dump(project), "utf8");

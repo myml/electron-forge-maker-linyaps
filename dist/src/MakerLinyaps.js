@@ -21,7 +21,7 @@ class MakerLinyaps extends maker_base_1.default {
     constructor() {
         super(...arguments);
         this.name = "linglong";
-        this.packageName = "electron-forge-maker-appimage";
+        this.packageName = "electron-forge-maker-linyaps";
         this.defaultPlatforms = ["linux"];
     }
     isSupportedOnCurrentPlatform() {
@@ -99,6 +99,9 @@ class MakerLinyaps extends maker_base_1.default {
             }
             if (config.build) {
                 project.build = config.build;
+            }
+            if (config.buildExt) {
+                project.build = project.build + "\n" + config.buildExt;
             }
             // 保存linglong.yaml到out目录
             (0, fs_1.writeFileSync)(dirObj.dir + "/linglong.yaml", js_yaml_1.default.dump(project), "utf8");
