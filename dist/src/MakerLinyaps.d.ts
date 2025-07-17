@@ -9,6 +9,7 @@ interface LinyapsForgeConfig {
     command?: string[];
     build?: string;
     buildExt?: string;
+    format?: "layer" | "uab";
 }
 export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     name: string;

@@ -1,6 +1,6 @@
 {
   "name": "electron-forge-maker-linyaps",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "electron forge maker for linyaps",
   "main": "dist/index.js",
   "scripts": {

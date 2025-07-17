@@ -135,7 +135,11 @@ class MakerLinyaps extends maker_base_1.default {
             if ((0, fs_1.existsSync)(exportLogfile)) {
                 (0, fs_1.unlinkSync)(exportLogfile);
             }
-            yield myExec("ll-builder export --layer", {
+            let exportArgs = "--layer";
+            if (config.format === "uab") {
+                exportArgs = "";
+            }
+            yield myExec(`ll-builder export ${exportArgs}`, {
                 cwd: dirObj.dir,
                 logfile: exportLogfile,
             });
