@@ -50,3 +50,7 @@ config 可选配置项目：
 - buildExt
 
 用于给 build 追加自定义命令，避免覆盖默认 build
+
+- format
+
+打包格式，可选 layer 和 uab，默认导出 layer

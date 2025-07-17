@@ -36,6 +36,7 @@ interface LinyapsForgeConfig {
   command?: string[];
   build?: string;
   buildExt?: string;
+  format?: "layer" | "uab";
 }
 export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
   name = "linyaps";
@@ -166,7 +167,11 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     if (existsSync(exportLogfile)) {
       unlinkSync(exportLogfile);
     }
-    await myExec("ll-builder export --layer", {
+    let exportArgs = "--layer";
+    if (config.format === "uab") {
+      exportArgs = "";
+    }
+    await myExec(`ll-builder export ${exportArgs}`, {
       cwd: dirObj.dir,
       logfile: exportLogfile,
     });
