@@ -117,7 +117,7 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
       },
       base: "org.deepin.base/23.1.0",
       command: [appName],
-      build: `cp -vr ${dirObj.name} $PREFIX/bin`,
+      build: `cp -vr ${dirObj.base} $PREFIX/bin`,
     };
     // 合并配置
     if (config.id) {

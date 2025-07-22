@@ -86,7 +86,7 @@ class MakerLinyaps extends maker_base_1.default {
                 },
                 base: "org.deepin.base/23.1.0",
                 command: [appName],
-                build: `cp -vr ${dirObj.name} $PREFIX/bin`,
+                build: `cp -vr ${dirObj.base} $PREFIX/bin`,
             };
             // 合并配置
             if (config.id) {
