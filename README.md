@@ -33,7 +33,7 @@ config 可选配置项目：
 
 - name
 
-应用名，默认使用 package.json 中的 name
+应用名，默认使用 package.json 中的 productName
 
 - description
 
@@ -54,3 +54,11 @@ config 可选配置项目：
 - format
 
 打包格式，可选 layer 和 uab，默认导出 layer
+
+- iconFile
+
+指定图标文件，如果未指定，则自动生成图标文件
+
+- desktopFile
+
+指定 desktop 文件，如果未指定，则自动生成 desktop 文件

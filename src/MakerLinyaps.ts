@@ -7,9 +7,11 @@ import {
   unlinkSync,
   writeFileSync,
   readdirSync,
+  copyFileSync,
 } from "fs";
 import { exec } from "child_process";
 import yaml from "js-yaml";
+import { generateIcon } from "./GenerateIcon";
 
 // 玲珑linglong.yaml配置项
 interface LinyapsProjectConfig {
@@ -37,6 +39,8 @@ interface LinyapsForgeConfig {
   build?: string;
   buildExt?: string;
   format?: "layer" | "uab";
+  iconFile?: string;
+  desktopFile?: string;
 }
 export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
   name = "linyaps";
@@ -83,7 +87,6 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
       author: string;
       license: string;
     };
-
     // 获取maker的配置
     let config: LinyapsForgeConfig = {};
     const maker = forgeConfig.makers.find((maker) => {
@@ -117,7 +120,7 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
       },
       base: "org.deepin.base/23.1.0",
       command: [appName],
-      build: `cp -vr ${dirObj.base} $PREFIX/bin`,
+      build: "",
     };
     // 合并配置
     if (config.id) {
@@ -144,9 +147,51 @@ export default class MakerLinyaps extends MakerBase<LinyapsForgeConfig> {
     if (config.buildExt) {
       project.build = project.build + "\n" + config.buildExt;
     }
+    if (project.build.length == 0) {
+      project.build = `mkdir -p $PREFIX/share/applications $PREFIX/share/icons/hicolor/256x256/apps
+cp ${project.package.id}.desktop $PREFIX/share/applications/
+cp ${project.package.id}.png $PREFIX/share/icons/hicolor/256x256/apps/
+cp -vr ${dirObj.base} $PREFIX/bin`;
+    }
+
     // 保存linglong.yaml到out目录
     writeFileSync(dirObj.dir + "/linglong.yaml", yaml.dump(project), "utf8");
-
+    // 如果已指定desktop文件，则使用指定的desktop文件
+    if (config.desktopFile) {
+      // 文件移动到out目录
+      const filename = path.basename(config.desktopFile);
+      const desktopFile = path.join(dirObj.dir, filename);
+      copyFileSync(config.desktopFile, desktopFile);
+    } else {
+      // 生成desktop文件
+      const desktopContent = `[Desktop Entry]
+Name=${project.package.name}
+Comment=${project.package.description}
+Exec=${project.command.join(" ")}
+Icon=${project.package.id}
+Terminal=false
+Type=Application
+Categories=Utility`;
+      writeFileSync(
+        path.join(dirObj.dir, `${project.package.id}.desktop`),
+        desktopContent,
+        "utf8"
+      );
+    }
+    // 如果已指定icon文件，则使用指定的icon文件
+    if (config.iconFile) {
+      // 文件移动到out目录
+      const filename = path.basename(config.iconFile);
+      const iconFile = path.join(dirObj.dir, filename);
+      copyFileSync(config.iconFile, iconFile);
+    } else {
+      // 否则生成icon文件，icon文件仅生成一次，后续重用，避免图标变动
+      const iconName = `${project.package.id}.png`;
+      if (!existsSync(iconName)) {
+        generateIcon(project.package.id, project.package.name, 256, iconName);
+      }
+      copyFileSync(iconName, path.join(dirObj.dir, iconName));
+    }
     // 执行编译
     const buildLogfile = dirObj.dir + "/ll_build.log";
     if (existsSync(buildLogfile)) {

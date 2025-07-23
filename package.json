@@ -1,6 +1,6 @@
 {
   "name": "electron-forge-maker-linyaps",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "electron forge maker for linyaps",
   "main": "dist/index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "dependencies": {
     "@electron-forge/maker-base": "^7.1.0",
     "@electron-forge/shared-types": "^7.1.0",
+    "canvas": "^3.1.2",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
